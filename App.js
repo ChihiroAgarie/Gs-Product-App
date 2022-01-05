@@ -1,12 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Button, Text, View, Image, SafeAreaView, Alert } from 'react-native';
 
-export default function App() {
+const Start = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View>
+        <Image
+          style={styles.logo}
+          source={require('./img/logo.png')}
+        />
+        <Button
+          title="初回登録"
+          onPress={() => Alert.alert('初回登録へ')}
+        />
+        <Button
+          title="ログイン"
+          onPress={() => Alert.alert('ログインへ')}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -17,4 +29,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    width: 150,
+    height: 50,
+  },
 });
+
+
+export default Start;
