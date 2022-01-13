@@ -1,9 +1,22 @@
+import React, { useState } from 'react';
 import 'react-native-gesture-handler';
-import React from 'react';
-import { StyleSheet, Button, Text, View, Image, SafeAreaView, Alert, TextInput } from 'react-native';
+import { StyleSheet, Button, Text, View, Image, SafeAreaView, Alert, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from 'firebase/firebase.js';
+
+
+const handleRegister = async () => {
+  try {
+    const user = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(user);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 
 //スタート画面
@@ -33,46 +46,78 @@ function Start() {
 
 //登録画面
 function Register() {
-  const [text, onChangeText] = React.useState(null);
-  const [email, onChangeEmail] = React.useState(null);
-  const [password, onChangePassword] = React.useState(null);
+  // const [text, onChangeText] = React.useState(null);
+  // const [email, onChangeEmail] = React.useState(null);
+  // const [password, onChangePassword] = React.useState(null);
+
+  // const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   // ナビゲーション設定
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+      }}
+    >
       <Text>親御様のお名前</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="山田　花子"
-      />
+      {/* <View style={{ marginBottom: 20 }}>
+        <TextInput
+          style={styles.input}
+          onChangeText={setName}
+          value={name}
+          placeholder="山田　花子"
+        />
+      </View> */}
       <Text>メールアドレス</Text>
-      <TextInput
-        style={styles.input}
-        onChangeEmail={onChangeEmail}
-        value={email}
-        placeholder="yamada@gmail.com"
-        keyboardType="ascii-capable"
-      />
+      <View style={{ marginBottom: 20 }}>
+        <TextInput
+          style={styles.input}
+          onChangeText={setEmail}
+          value={email}
+          placeholder="yamada@gmail.com"
+          keyboardType="ascii-capable"
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+      </View>
       <Text>パスワード</Text>
-      <TextInput
-        style={styles.input}
-        onChangePassword={onChangePassword}
-        value={password}
-        placeholder="password"
-        keyboardType="ascii-capable"
-      />
-      <Button
-        title="登録完了"
-        onPress={() => navigation.navigate('Welcome')}
-      />
-    </SafeAreaView>
+      <View style={{ marginBottom: 20 }}>
+        <TextInput
+          style={styles.input}
+          onChangeText={setPassword}
+          value={password}
+          placeholder="パスワードを入力してください"
+          keyboardType="ascii-capable"
+          secureTextEntry={true}
+          autoCapitalize="none"
+        />
+      </View>
+      <TouchableOpacity
+        style={{
+          padding: 10,
+          backgroundColor: '#88cb7f',
+          borderRadius: 10,
+        }}
+        onPress={handleRegister}
+      // disabled={!email || !password}
+      >
+        <Button
+          title="登録完了"
+          onPress={() => navigation.navigate('Welcome')}
+        />
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
   );
 }
 
-//アプリ説明画面
+// アプリ説明画面
 function Welcome() {
   // ナビゲーション設定
   const navigation = useNavigation();
