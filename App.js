@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import 'react-native-gesture-handler';
+// import 'react-native-gesture-handler';
 import {
   StyleSheet,
   Button,
@@ -23,7 +23,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import RNPickerSelect from 'react-native-picker-select';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Test:サインイン（動画内コード）
 // const App = () => {
@@ -160,53 +160,10 @@ function Login() {
       }}
     >
       <Text>ログイン画面</Text>
-      {/* <Text>親御様のお名前</Text>
-      <View style={{ marginBottom: 20 }}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setName}
-          value={name}
-          placeholder="山田　花子"
-        />
-      </View> */}
-      {/* <Text>メールアドレス</Text>
-      <View style={{ marginBottom: 20 }}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setEmail}
-          value={loginemail}
-          placeholder="yamada@gmail.com"
-          keyboardType="ascii-capable"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-      </View>
-      <Text>パスワード</Text>
-      <View style={{ marginBottom: 20 }}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setPassword}
-          value={loginpassword}
-          placeholder="パスワードを入力してください"
-          keyboardType="ascii-capable"
-          secureTextEntry={true}
-          autoCapitalize="none"
-        />
-      </View> */}
-      <TouchableOpacity
-      // style={{
-      //   padding: 10,
-      //   backgroundColor: '#88cb7f',
-      //   borderRadius: 10,
-      // }}
-      // onPress={handleRegister}
-      // disabled={!email || !password}
-      >
-        <Button
-          title="ログイン"
-          onPress={() => navigation.navigate('Welcome')}
-        />
-      </TouchableOpacity>
+      <Button
+        title="ログイン"
+        onPress={() => navigation.navigate('Welcome')}
+      />
     </KeyboardAvoidingView>
   );
 }
@@ -238,8 +195,13 @@ function Search() {
   // ナビゲーション設定
   const navigation = useNavigation();
 
-  const [value, setValueAge] = useState('');
+  const [value1, setValueAge] = useState('');
   const [value2, setValuePref] = useState('');
+
+  console.log(value1);
+  console.log(value2);
+
+  // const [getagevalue, setValuegetAge] = useState(value1);
 
   return (
     <KeyboardAvoidingView
@@ -260,7 +222,8 @@ function Search() {
         <Text>お子様の年齢</Text>
         <RNPickerSelect
           placeholder={{ label: '選択してください', value: '' }}
-          onValueChange={(value) => setValueAge({ select: value })}
+          // onValueChange={(value) => setValueAge({ select: value })}
+          onValueChange={(value1) => setValueAge(value1)}
           style={pickerSelectStyles}
           items={[
             { label: '2歳', value: '2歳' },
@@ -278,7 +241,8 @@ function Search() {
               name="chevron-down"
               size={15}
               color="gray"
-            />} />
+            />}
+        />
       </View>
       <View
         style={{
@@ -289,7 +253,8 @@ function Search() {
         <Text>「地域」を選ぶ</Text>
         <RNPickerSelect
           placeholder={{ label: '選択してください', value: '' }}
-          onValueChange={(value2) => setValuePref({ select: value2 })}
+          // onValueChange={(value2) => setValuePref({ select: value2 })}
+          onValueChange={(value2) => setValuePref(value2)}
           style={pickerSelectStyles}
           items={[
             { label: '北海道', value: '北海道' },
@@ -355,27 +320,29 @@ function Search() {
       >
         <Text>「カテゴリ」で探す</Text>
         <Button
-          title="自然"
+          title="イベント"
           onPress={() => navigation.navigate('Category1')}
+        //Listというページに、自然に関するコンテンツだけ出す。valueか何かを渡して、それだけを出すようにするとか？
+        //ifこのボタンを押したら、Listページに自然に関するコンテンツだけ出す
         />
         <Button
-          title="ものづくり"
+          title="習い事"
           onPress={() => navigation.navigate('Category2')}
         />
         <Button
-          title="スポーツ"
+          title="旅行"
           onPress={() => navigation.navigate('Category3')}
         />
         <Button
-          title="生き物"
+          title="行事"
           onPress={() => navigation.navigate('Category4')}
         />
         <Button
-          title="音楽"
+          title="オンライン体験"
           onPress={() => navigation.navigate('Category5')}
         />
         <Button
-          title="旅行"
+          title="お家遊び"
           onPress={() => navigation.navigate('Category6')}
         />
       </View>
@@ -410,6 +377,14 @@ function Search() {
           title="本を読むのが好き"
           onPress={() => navigation.navigate('Like6')}
         />
+        <Button
+          title="自然が好き"
+          onPress={() => navigation.navigate('Like7')}
+        />
+        <Button
+          title="何かを作るのが好き"
+          onPress={() => navigation.navigate('Like8')}
+        />
       </View>
     </KeyboardAvoidingView>
   );
@@ -422,6 +397,7 @@ function Category1() {
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate('Category1_Detail1')}>
+      <Text>{value1}</Text>
       <Image
         style={styles.categoryImg}
         source={require('./img/event.jpg')}
