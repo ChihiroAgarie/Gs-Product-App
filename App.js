@@ -10,7 +10,8 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  FlatList
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -22,8 +23,11 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 import RNPickerSelect from 'react-native-picker-select';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { isRequired } from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType';
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
+
 
 //Test:サインイン（動画内コード）
 // const App = () => {
@@ -42,7 +46,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 //         console.log(re);
 //       })
 //   }
-
 
 //   return (
 //     <SafeAreaView>
@@ -195,23 +198,8 @@ function Search() {
   // ナビゲーション設定
   const navigation = useNavigation();
 
-  const [value1, setValueAge] = useState('');
-  const [value2, setValuePref] = useState('');
-
-  console.log(value1);
-  console.log(value2);
-
-  // const [getagevalue, setValuegetAge] = useState(value1);
-
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-      }}
-    >
+    <SafeAreaView style={styles.container}>
       <Text>早速、いろんな体験を探してみましょう！</Text>
       <View
         style={{
@@ -219,10 +207,168 @@ function Search() {
           marginTop: 20
         }}
       >
+        <Text>「カテゴリ」で探す</Text>
+        <Button
+          title="イベント"
+          onPress={() => navigation.navigate('Event')}
+        />
+        <Button
+          title="習い事"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="旅行"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="行事"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="オンライン体験"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="お家遊び"
+          onPress={() => navigation.navigate('List')}
+        />
+      </View>
+      <View
+        style={{
+          marginBottom: 20,
+          marginTop: 20
+        }}
+      >
+        <Text>お子さんの「好き」で探す</Text>
+        <Button
+          title="体を動かすのが好き"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="絵を描くのが好き"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="生き物が好き"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="踊るのが好き"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="歌うのが好き"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="本を読むのが好き"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="自然が好き"
+          onPress={() => navigation.navigate('List')}
+        />
+        <Button
+          title="何かを作るのが好き"
+          onPress={() => navigation.navigate('List')}
+        />
+      </View>
+    </SafeAreaView>
+    // </KeyboardAvoidingView>
+  );
+}
+
+// イベント一覧用配列
+const events = [
+  {
+    id: 1,
+    age: '3歳〜',
+    pref: '北海道',
+    title: 'いちご狩り',
+    img: require('./img/event.jpg'),
+    desc: 'いちご狩りの説明文です',
+  },
+  {
+    id: 2,
+    age: '4歳〜',
+    pref: '岩手県',
+    title: 'ぶどう狩り',
+    img: require('./img/event.jpg'),
+  },
+  {
+    id: 3,
+    age: '5歳〜',
+    pref: '青森県',
+    title: '梨狩り',
+    img: require('./img/event.jpg'),
+  },
+];
+
+// イベント一覧配列表示（初期値）
+function EventDefault(props) {
+  // ナビゲーション設定
+  const navigation = useNavigation();
+
+  return (
+    <View>
+      {events.map((event) => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Detail')}
+          key={event.id}>
+          <View>
+            <Image
+              style={styles.categoryImg}
+              source={event.img} />
+            <Text>{event.age}</Text>
+            <Text>{event.pref}</Text>
+            <Text>{event.title}</Text>
+          </View>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+}
+
+// イベント-カテゴリ画面
+function Event() {
+  // ナビゲーション設定
+  const navigation = useNavigation();
+
+  // 絞り込み検索
+  const [value1, setValueAge] = useState('');
+  const [value2, setValuePref] = useState('');
+
+  console.log(value1);
+  console.log(value2);
+
+  // 絞り込み検索イベント
+  // value1とvalue2を取得して、prefが文字列が含まれるコンテンツのみ表示する
+  const RefineSearch = () => {
+    // createUserWithEmailAndPassword(authentication, email, password)
+    //   .then((re) => {
+    //     console.log(re);
+    //     setIsSignedIn(true)
+    //   })
+    //   .catch((re) => {
+    //     console.log(re);
+    //   })
+  }
+
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#fff'
+      }} >
+      <View
+        style={{
+          marginBottom: 20,
+          marginTop: 20
+        }}>
+        <Text>絞り込み検索</Text>
         <Text>お子様の年齢</Text>
         <RNPickerSelect
           placeholder={{ label: '選択してください', value: '' }}
-          // onValueChange={(value) => setValueAge({ select: value })}
           onValueChange={(value1) => setValueAge(value1)}
           style={pickerSelectStyles}
           items={[
@@ -236,24 +382,19 @@ function Search() {
             { label: '9歳', value: '9歳' },
             { label: '10歳', value: '10歳' },
           ]}
-          Icon={() =>
-            <Ionicons
-              name="chevron-down"
-              size={15}
-              color="gray"
-            />}
-        />
+          Icon={() => <Ionicons
+            name="chevron-down"
+            size={15}
+            color="gray" />} />
       </View>
       <View
         style={{
           marginBottom: 20,
           marginTop: 20
-        }}
-      >
-        <Text>「地域」を選ぶ</Text>
+        }}>
+        <Text>地域</Text>
         <RNPickerSelect
           placeholder={{ label: '選択してください', value: '' }}
-          // onValueChange={(value2) => setValuePref({ select: value2 })}
           onValueChange={(value2) => setValuePref(value2)}
           style={pickerSelectStyles}
           items={[
@@ -305,117 +446,47 @@ function Search() {
             { label: '鹿児島県', value: '鹿児島県' },
             { label: '沖縄県', value: '沖縄県' },
           ]}
-          Icon={() =>
-            <Ionicons
-              name="chevron-down"
-              size={15}
-              color="gray"
-            />} />
+          Icon={() => <Ionicons
+            name="chevron-down"
+            size={15}
+            color="gray" />} />
       </View>
-      <View
-        style={{
-          marginBottom: 20,
-          marginTop: 20
-        }}
-      >
-        <Text>「カテゴリ」で探す</Text>
-        <Button
-          title="イベント"
-          onPress={() => navigation.navigate('Category1')}
-        //Listというページに、自然に関するコンテンツだけ出す。valueか何かを渡して、それだけを出すようにするとか？
-        //ifこのボタンを押したら、Listページに自然に関するコンテンツだけ出す
-        />
-        <Button
-          title="習い事"
-          onPress={() => navigation.navigate('Category2')}
-        />
-        <Button
-          title="旅行"
-          onPress={() => navigation.navigate('Category3')}
-        />
-        <Button
-          title="行事"
-          onPress={() => navigation.navigate('Category4')}
-        />
-        <Button
-          title="オンライン体験"
-          onPress={() => navigation.navigate('Category5')}
-        />
-        <Button
-          title="お家遊び"
-          onPress={() => navigation.navigate('Category6')}
-        />
-      </View>
-      <View
-        style={{
-          marginBottom: 20,
-          marginTop: 20
-        }}
-      >
-        <Text>「好き」で探す</Text>
-        <Button
-          title="体を動かすのが好き"
-          onPress={() => navigation.navigate('Like1')}
-        />
-        <Button
-          title="絵を描くのが好き"
-          onPress={() => navigation.navigate('Like2')}
-        />
-        <Button
-          title="生き物が好き"
-          onPress={() => navigation.navigate('Like3')}
-        />
-        <Button
-          title="踊るのが好き"
-          onPress={() => navigation.navigate('Like4')}
-        />
-        <Button
-          title="歌うのが好き"
-          onPress={() => navigation.navigate('Like5')}
-        />
-        <Button
-          title="本を読むのが好き"
-          onPress={() => navigation.navigate('Like6')}
-        />
-        <Button
-          title="自然が好き"
-          onPress={() => navigation.navigate('Like7')}
-        />
-        <Button
-          title="何かを作るのが好き"
-          onPress={() => navigation.navigate('Like8')}
-        />
-      </View>
-    </KeyboardAvoidingView>
-  );
-}
-
-// カテゴリ別画面
-function Category1() {
-  // ナビゲーション設定
-  const navigation = useNavigation();
-
-  return (
-    <TouchableOpacity onPress={() => navigation.navigate('Category1_Detail1')}>
-      <Text>{value1}</Text>
-      <Image
-        style={styles.categoryImg}
-        source={require('./img/event.jpg')}
+      <Button
+        title="絞り込む"
+      // イベントを作って読み込む
+      // onPress={RefineSearch}
       />
-      <Text>イベント</Text>
-      <Text>タイトル</Text>
-    </TouchableOpacity>
+      <View>
+        <EventDefault />
+        {/* <View>
+          {events.map((event) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Detail')}
+              key={event.id}>
+              <View>
+                <Image
+                  style={styles.categoryImg}
+                  source={event.img} />
+                <Text>{event.age}</Text>
+                <Text>{event.pref}</Text>
+                <Text>{event.title}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View> */}
+      </View>
+    </SafeAreaView>
   );
 }
 
 // カテゴリ_詳細画面
-function Category1_Detail1() {
+function Detail() {
   // ナビゲーション設定
   const navigation = useNavigation();
 
   return (
     <SafeAreaView>
-      <View onPress={() => navigation.navigate('Category1_Detail1')}>
+      <View>
         <Image
           style={styles.categoryDetailImg}
           source={require('./img/event.jpg')}
@@ -449,8 +520,6 @@ function Rate() {
       <Text>メモ</Text>
       <TextInput
         style={styles.input}
-      // onChangeText={setName}
-      // value={name}
       />
       <Button
         title="完了"
@@ -593,11 +662,11 @@ export default function App() {
           name="Search"
           component={Search} />
         <Stack.Screen
-          name="Category1"
-          component={Category1} />
+          name="Event"
+          component={Event} />
         <Stack.Screen
-          name="Category1_Detail1"
-          component={Category1_Detail1} />
+          name="Detail"
+          component={Detail} />
         <Stack.Screen
           name="Rate"
           component={Rate} />
