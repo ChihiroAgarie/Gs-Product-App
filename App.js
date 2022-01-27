@@ -11,7 +11,9 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  FlatList
+  FlatList,
+  ScrollView,
+  StatusBar,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -193,147 +195,126 @@ function Welcome() {
   );
 }
 
-//ホーム画面
+//ホーム検索画面
 function Search() {
   // ナビゲーション設定
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>早速、いろんな体験を探してみましょう！</Text>
-      <View
-        style={{
-          marginBottom: 20,
-          marginTop: 20
-        }}
-      >
-        <Text>「カテゴリ」で探す</Text>
-        <Button
-          title="イベント"
-          onPress={() => navigation.navigate('Event')}
-        />
-        <Button
-          title="習い事"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="旅行"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="行事"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="オンライン体験"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="お家遊び"
-          onPress={() => navigation.navigate('List')}
-        />
-      </View>
-      <View
-        style={{
-          marginBottom: 20,
-          marginTop: 20
-        }}
-      >
-        <Text>お子さんの「好き」で探す</Text>
-        <Button
-          title="体を動かすのが好き"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="絵を描くのが好き"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="生き物が好き"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="踊るのが好き"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="歌うのが好き"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="本を読むのが好き"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="自然が好き"
-          onPress={() => navigation.navigate('List')}
-        />
-        <Button
-          title="何かを作るのが好き"
-          onPress={() => navigation.navigate('List')}
-        />
-      </View>
+    <SafeAreaView style={SearchStyles.container}>
+      <ScrollView style={SearchStyles.scrollView}>
+        <Text>早速、いろんな体験を探してみましょう！</Text>
+        <View
+          style={{
+            marginBottom: 20,
+            marginTop: 20
+          }}
+        >
+          <Text>「カテゴリ」で探す</Text>
+          <Button
+            title="自然"
+            onPress={() => navigation.navigate('Nature')}
+          />
+          <Button
+            title="ものづくり"
+            onPress={() => navigation.navigate('Make')}
+          />
+          <Button
+            title="スポーツ"
+            onPress={() => navigation.navigate('Sports')}
+          />
+          <Button
+            title="生き物"
+            onPress={() => navigation.navigate('Animal')}
+          />
+          <Button
+            title="音楽"
+            onPress={() => navigation.navigate('Music')}
+          />
+          <Button
+            title="文化"
+            onPress={() => navigation.navigate('Culture')}
+          />
+          <Button
+            title="行事"
+            onPress={() => navigation.navigate('Event')}
+          />
+        </View>
+        <View
+          style={{
+            marginBottom: 20,
+            marginTop: 20
+          }}
+        >
+          <Text>「お子さんの好き」で探す</Text>
+          <Button
+            title="外で遊ぶのが好き"
+            onPress={() => navigation.navigate('outdoor')}
+          />
+          <Button
+            title="絵を描くのが好き"
+            onPress={() => navigation.navigate('Paint')}
+          />
+          <Button
+            title="動物が好き"
+            onPress={() => navigation.navigate('Animal')}
+          />
+          <Button
+            title="歌うのが好き"
+            onPress={() => navigation.navigate('Music')}
+          />
+          <Button
+            title="本を読むのが好き"
+            onPress={() => navigation.navigate('Book')}
+          />
+          <Button
+            title="何かを作るのが好き"
+            onPress={() => navigation.navigate('Make')}
+          />
+          <Button
+            title="踊るのが好き"
+            onPress={() => navigation.navigate('Sports')}
+          />
+          <Button
+            title="ごっこ遊びが好き"
+            onPress={() => navigation.navigate('Pretend')}
+          />
+          <Button
+            title="乗り物が好き"
+            onPress={() => navigation.navigate('Vehicles')}
+          />
+          <Button
+            title="お話しするのが好き"
+            onPress={() => navigation.navigate('Talk')}
+          />
+        </View>
+        <View
+          style={{
+            marginBottom: 20,
+            marginTop: 20
+          }}
+        >
+          <Text>「お家でできること」で探す</Text>
+          <Button
+            title="オンライン体験・レッスン"
+            onPress={() => navigation.navigate('online')}
+          />
+          <Button
+            title="アプリで遊ぶ"
+            onPress={() => navigation.navigate('Apps')}
+          />
+          <Button
+            title="お家遊び"
+            onPress={() => navigation.navigate('house')}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
-    // </KeyboardAvoidingView>
   );
 }
 
-// イベント一覧用配列
-const events = [
-  {
-    id: 1,
-    age: '3歳〜',
-    pref: '北海道',
-    title: 'いちご狩り',
-    img: require('./img/event.jpg'),
-    desc: 'いちご狩りの説明文です',
-  },
-  {
-    id: 2,
-    age: '4歳〜',
-    pref: '岩手県',
-    title: 'ぶどう狩り',
-    img: require('./img/event.jpg'),
-  },
-  {
-    id: 3,
-    age: '5歳〜',
-    pref: '青森県',
-    title: '梨狩り',
-    img: require('./img/event.jpg'),
-  },
-];
-
-// イベント一覧配列表示（初期値）
-function EventDefault(props) {
-  // ナビゲーション設定
-  const navigation = useNavigation();
-
-  return (
-    <View>
-      {events.map((event) => (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Detail')}
-          key={event.id}>
-          <View>
-            <Image
-              style={styles.categoryImg}
-              source={event.img} />
-            <Text>{event.age}</Text>
-            <Text>{event.pref}</Text>
-            <Text>{event.title}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
-}
-
-// イベント-カテゴリ画面
-function Event() {
-  // ナビゲーション設定
-  const navigation = useNavigation();
-
+//絞り込み検索セレクトボックスパーツ
+function SelectBox(props) {
   // 絞り込み検索
   const [value1, setValueAge] = useState('');
   const [value2, setValuePref] = useState('');
@@ -341,30 +322,9 @@ function Event() {
   console.log(value1);
   console.log(value2);
 
-  // 絞り込み検索イベント
-  // value1とvalue2を取得して、prefが文字列が含まれるコンテンツのみ表示する
-  const RefineSearch = () => {
-    // createUserWithEmailAndPassword(authentication, email, password)
-    //   .then((re) => {
-    //     console.log(re);
-    //     setIsSignedIn(true)
-    //   })
-    //   .catch((re) => {
-    //     console.log(re);
-    //   })
-  }
-
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: '#fff'
-      }} >
-      <View
-        style={{
-          marginBottom: 20,
-          marginTop: 20
-        }}>
+    <View>
+      <View>
         <Text>絞り込み検索</Text>
         <Text>お子様の年齢</Text>
         <RNPickerSelect
@@ -372,20 +332,21 @@ function Event() {
           onValueChange={(value1) => setValueAge(value1)}
           style={pickerSelectStyles}
           items={[
-            { label: '2歳', value: '2歳' },
-            { label: '3歳', value: '3歳' },
-            { label: '4歳', value: '4歳' },
-            { label: '5歳', value: '5歳' },
-            { label: '6歳', value: '6歳' },
-            { label: '7歳', value: '7歳' },
-            { label: '8歳', value: '8歳' },
-            { label: '9歳', value: '9歳' },
-            { label: '10歳', value: '10歳' },
+            { label: '2', value: '2' },
+            { label: '3', value: '3' },
+            { label: '4', value: '4' },
+            { label: '5', value: '5' },
+            { label: '6', value: '6' },
+            { label: '7', value: '7' },
+            { label: '8', value: '8' },
+            { label: '9', value: '9' },
+            { label: '10', value: '10' },
           ]}
           Icon={() => <Ionicons
             name="chevron-down"
             size={15}
             color="gray" />} />
+        <Text>歳</Text>
       </View>
       <View
         style={{
@@ -451,29 +412,320 @@ function Event() {
             size={15}
             color="gray" />} />
       </View>
-      <Button
-        title="絞り込む"
-      // イベントを作って読み込む
-      // onPress={RefineSearch}
+    </View>
+  );
+}
+
+//「カテゴリ」コンテンツ
+// 「行事（イベント）」一覧用配列
+// const [events, setData] = useState([
+//   // events = [
+//   {
+//     id: 1,
+//     age: '5歳〜',
+//     pref: '全国',
+//     title: '節分（2月3日）',
+//     img: require('./img/event.jpg'),
+//     desc: '節分の説明文です',
+//   },
+//   {
+//     id: 2,
+//     age: '4歳〜',
+//     pref: '岩手県',
+//     title: 'ぶどう狩り',
+//     img: require('./img/event.jpg'),
+//   },
+//   {
+//     id: 3,
+//     age: '3歳〜',
+//     pref: '青森県',
+//     title: '梨狩り',
+//     img: require('./img/event.jpg'),
+//   },
+// ]);
+
+// const Item = ({ item, onPress, backgroundColor, textColor }) => (
+//   <TouchableOpacity
+//     onPress={onPress}
+//     style={[styles.item, backgroundColor]}>
+//     <Image
+//       style={styles.categoryImg}
+//       source={item.img} />
+//     <Text>{item.age}</Text>
+//     <Text>{item.pref}</Text>
+//     <Text style={[styles.title, textColor]}>{item.title}</Text>
+//   </TouchableOpacity>
+// );
+
+//「行事（イベント）」一覧表示リスト（初期値）
+// function Flatlist(props) {
+//   // ナビゲーション設定
+//   const navigation = useNavigation();
+
+//   const [selectedId, setSelectedId] = useState(null);
+
+//   const renderItem = ({ item }) => {
+//     const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
+//     const color = item.id === selectedId ? 'white' : 'black';
+
+//     return (
+//       <Item
+//         item={item}
+//         onPress={() => setSelectedId(item.id)}
+//         onPress={() => navigation.navigate('Detail')}
+//         backgroundColor={{ backgroundColor }}
+//         textColor={{ color }}
+//       />
+//     );
+//   };
+
+//   return (
+//     <SafeAreaView>
+//       <FlatList
+//         data={events}
+//         renderItem={renderItem}
+//         keyExtractor={(item) => item.id}
+//         extraData={selectedId}
+//       />
+//     </SafeAreaView>
+//   );
+
+// return (
+//   <View>
+//     {events.map((event) => (
+//       <TouchableOpacity
+//         onPress={() => navigation.navigate('Detail')}
+//         key={event.id}>
+//         <View>
+//           <Image
+//             style={styles.categoryImg}
+//             source={event.img} />
+//           <Text>{event.age}</Text>
+//           <Text>{event.pref}</Text>
+//           <Text>{event.title}</Text>
+//         </View>
+//       </TouchableOpacity>
+//     ))}
+//   </View>
+// );
+// }
+
+//「行事（イベント）」一覧表示リスト（初期値）
+// function EventDefault(props) {
+//   // ナビゲーション設定
+//   const navigation = useNavigation();
+
+//   return (
+//     <View>
+//       {events.map((event) => (
+//         <TouchableOpacity
+//           onPress={() => navigation.navigate('Detail')}
+//           key={event.id}>
+//           <View>
+//             <Image
+//               style={styles.categoryImg}
+//               source={event.img} />
+//             <Text>{event.age}</Text>
+//             <Text>{event.pref}</Text>
+//             <Text>{event.title}</Text>
+//           </View>
+//         </TouchableOpacity>
+//       ))}
+//     </View>
+//   );
+// }
+
+// 「行事（イベント）」一覧画面
+function Event() {
+  // ナビゲーション設定
+  const navigation = useNavigation();
+
+  // 「行事（イベント）」一覧用配列
+  const [events, setData] = useState([
+    // events = [
+    {
+      id: 1,
+      age: '5',
+      pref: '全国',
+      title: '節分（2月3日）',
+      img: require('./img/event.jpg'),
+      desc: '節分の説明文です',
+    },
+    {
+      id: 2,
+      age: '4',
+      pref: '岩手県',
+      title: 'ぶどう狩り',
+      img: require('./img/event.jpg'),
+    },
+    {
+      id: 3,
+      age: '3',
+      pref: '青森県',
+      title: '梨狩り',
+      img: require('./img/event.jpg'),
+    },
+  ]);
+
+  const Item = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.item, backgroundColor]}>
+      <Image
+        style={styles.categoryImg}
+        source={item.img} />
+      <Text>{item.age}歳〜</Text>
+      <Text>{item.pref}</Text>
+      <Text style={[styles.title, textColor]}>{item.title}</Text>
+    </TouchableOpacity>
+  );
+
+  const [selectedId, setSelectedId] = useState(null);
+
+  const renderItem = ({ item }) => {
+    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
+    const color = item.id === selectedId ? 'white' : 'black';
+
+    return (
+      <Item
+        item={item}
+        onPress={() => setSelectedId(item.id)}
+        onPress={() => navigation.navigate('Detail')}
+        backgroundColor={{ backgroundColor }}
+        textColor={{ color }}
       />
+    );
+  };
+
+  // 絞り込み検索
+  const [value1, setValueAge] = useState('');
+  const [value2, setValuePref] = useState('');
+
+  console.log(value1);
+  console.log(value2);
+
+  //新たな配列を作成
+  const onPress = () => {
+    const newData = events.filter((item) => {
+      return item.age >= value1 & item.pref === value2;
+      // return item.pref === value2;
+    });
+    setData(newData);
+  };
+
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#fff'
+      }} >
       <View>
-        <EventDefault />
-        {/* <View>
-          {events.map((event) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Detail')}
-              key={event.id}>
-              <View>
-                <Image
-                  style={styles.categoryImg}
-                  source={event.img} />
-                <Text>{event.age}</Text>
-                <Text>{event.pref}</Text>
-                <Text>{event.title}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View> */}
+        {/* <SelectBox /> */}
+        <View
+          style={{
+            marginBottom: 20,
+            marginTop: 20
+          }}>
+          <Text>絞り込み検索</Text>
+          <Text>お子様の年齢</Text>
+          <RNPickerSelect
+            placeholder={{ label: '選択してください', value: '' }}
+            onValueChange={(value1) => setValueAge(value1)}
+            style={pickerSelectStyles}
+            items={[
+              { label: '2', value: '2' },
+              { label: '3', value: '3' },
+              { label: '4', value: '4' },
+              { label: '5', value: '5' },
+              { label: '6', value: '6' },
+              { label: '7', value: '7' },
+              { label: '8', value: '8' },
+              { label: '9', value: '9' },
+              { label: '10', value: '10' },
+            ]}
+            Icon={() => <Ionicons
+              name="chevron-down"
+              size={15}
+              color="gray" />} />
+          <Text>歳</Text>
+        </View>
+        <View
+          style={{
+            marginBottom: 20,
+            marginTop: 20
+          }}>
+          <Text>地域</Text>
+          <RNPickerSelect
+            placeholder={{ label: '選択してください', value: '' }}
+            onValueChange={(value2) => setValuePref(value2)}
+            style={pickerSelectStyles}
+            items={[
+              { label: '北海道', value: '北海道' },
+              { label: '青森県', value: '青森県' },
+              { label: '岩手県', value: '岩手県' },
+              { label: '宮城県', value: '宮城県' },
+              { label: '秋田県', value: '秋田県' },
+              { label: '山形県', value: '山形県' },
+              { label: '福島県', value: '福島県' },
+              { label: '茨城県', value: '茨城県' },
+              { label: '栃木県', value: '栃木県' },
+              { label: '群馬県', value: '群馬県' },
+              { label: '埼玉県', value: '埼玉県' },
+              { label: '千葉県', value: '千葉県' },
+              { label: '東京都', value: '東京都' },
+              { label: '神奈川県', value: '神奈川県' },
+              { label: '新潟県', value: '新潟県' },
+              { label: '富山県', value: '富山県' },
+              { label: '石川県', value: '石川県' },
+              { label: '福井県', value: '福井県' },
+              { label: '山梨県', value: '山梨県' },
+              { label: '長野県', value: '長野県' },
+              { label: '岐阜県', value: '岐阜県' },
+              { label: '静岡県', value: '静岡県' },
+              { label: '愛知県', value: '愛知県' },
+              { label: '三重県', value: '三重県' },
+              { label: '滋賀県', value: '滋賀県' },
+              { label: '京都府', value: '京都府' },
+              { label: '大阪府', value: '大阪府' },
+              { label: '兵庫県', value: '兵庫県' },
+              { label: '奈良県', value: '奈良県' },
+              { label: '和歌山県', value: '和歌山県' },
+              { label: '鳥取県', value: '鳥取県' },
+              { label: '島根県', value: '島根県' },
+              { label: '岡山県', value: '岡山県' },
+              { label: '広島県', value: '広島県' },
+              { label: '山口県', value: '山口県' },
+              { label: '徳島県', value: '徳島県' },
+              { label: '香川県', value: '香川県' },
+              { label: '愛媛県', value: '愛媛県' },
+              { label: '高知県', value: '高知県' },
+              { label: '福岡県', value: '福岡県' },
+              { label: '佐賀県', value: '佐賀県' },
+              { label: '長崎県', value: '長崎県' },
+              { label: '熊本県', value: '熊本県' },
+              { label: '大分県', value: '大分県' },
+              { label: '宮崎県', value: '宮崎県' },
+              { label: '鹿児島県', value: '鹿児島県' },
+              { label: '沖縄県', value: '沖縄県' },
+            ]}
+            Icon={() => <Ionicons
+              name="chevron-down"
+              size={15}
+              color="gray" />} />
+        </View>
+        <Button
+          title="絞り込む"
+          //クリックで新たな配列データを作成
+          onPress={onPress}
+        />
+        <View>
+          <FlatList
+            data={events}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            extraData={selectedId}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -591,7 +843,7 @@ function Favorites() {
 }
 
 
-//スタイルシート
+//スタイルシート・CSS
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -621,6 +873,20 @@ const styles = StyleSheet.create({
   },
 });
 
+//ホーム検索画面CSS
+const SearchStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: StatusBar.currentHeight,
+  },
+  scrollView: {
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+  },
+});
+
+// 絞り込み選択セレクトボックスCSS
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     borderWidth: 1,
