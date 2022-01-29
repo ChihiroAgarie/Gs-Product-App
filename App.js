@@ -151,9 +151,15 @@ function Register() {
       <Button
         mode="contained"
         onPress={RegisterUser}
-        onPress={() => navigation.navigate('Welcome')}
+        // onPress={() => navigation.navigate('Welcome')}
         style={{ width: 250, marginTop: 20 }}>
         登録する
+      </Button>
+      <Button
+        mode="outlined"
+        onPress={() => navigation.navigate('Welcome')}
+        style={{ width: 250, marginTop: 20 }}>
+        次へ
       </Button>
     </SafeAreaView>
   );
@@ -217,7 +223,6 @@ function Search() {
   return (
     <SafeAreaView style={SearchStyles.container}>
       <ScrollView style={SearchStyles.scrollView}>
-        {/* <Text style={{ fontSize: 16, marginTop: 20 }}>いろんな体験を探してみましょう！</Text> */}
         <View>
           <Button icon="magnify" style={{ alignItems: 'left', marginBottom: 5, marginTop: 10 }}>
             「カテゴリ」で探す
@@ -532,10 +537,12 @@ function Nature(props) {
     },
   ]);
 
-  const Item = ({ item, onPress, backgroundColor, textColor }) => (
+  // const Item = ({ item, onPress, backgroundColor, textColor }) => (
+  const Item = ({ item, onPress }) => (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.item, backgroundColor]}>
+      //  style={[styles.item, backgroundColor]}>
+      style={styles.item}>
       <View style={{ flexDirection: 'row', marginBottom: 15, width: 350, marginLeft: 15 }}>
         <Image
           style={styles.categoryImg}
@@ -612,10 +619,12 @@ function Nature(props) {
                 { label: '9', value: '9' },
                 { label: '10', value: '10' },
               ]}
-              Icon={() => <Ionicons
-                name="chevron-down"
-                size={15}
-                color="gray" />} />
+              Icon={() =>
+                <Ionicons
+                  name="chevron-down"
+                  size={15}
+                  color="gray"
+                />} />
             <Text>歳</Text>
           </View>
 
@@ -678,7 +687,8 @@ function Nature(props) {
                 Icon={() => <Ionicons
                   name="chevron-down"
                   size={15}
-                  color="gray" />} />
+                  color="gray"
+                />} />
             </View>
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -861,7 +871,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   imgText: {
-    color: "white",
+    color: '#fff',
     width: 80,
     padding: 5,
     textAlign: "center",
