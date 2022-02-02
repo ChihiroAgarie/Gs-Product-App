@@ -19,6 +19,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { authentication } from './firebase/firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { db } from './firebase/firebase-config';
+import { collection, getDocs, doc, setDoc } from 'firebase/firestore/lite';
 
 import RNPickerSelect from 'react-native-picker-select';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -463,6 +465,16 @@ function Nature(props) {
   // ナビゲーション設定
   const navigation = useNavigation();
 
+  const getdata = async () => {
+    const dataCol = collection(db, 'contents');
+    const dataSnapshot = await getDocs(dataCol);
+    const dataList = dataSnapshot.docs.map(doc => doc.data());
+    console.log(dataList);
+    console.log(dataList[0].age_fb);
+
+    return dataList;
+  }
+
   // 「自然」一覧用配列
   const [events, setData] = useState([
     {
@@ -594,6 +606,7 @@ function Nature(props) {
     setData(newData);
   };
 
+
   return (
     <SafeAreaView style={SearchStyles.container} >
       {/* <ScrollView style={SearchStyles.scrollView}> */}
@@ -700,6 +713,17 @@ function Nature(props) {
             </Button>
           </View>
         </View>
+
+        <View>
+          <Button
+            mode="contained"
+            style={{ width: 250, marginBottom: 20, }}
+            onPress={getdata}>
+            Firebaseデータゲット
+          </Button>
+          {/* <Text>{age_fb}</Text> */}
+        </View>
+
         <View>
           <FlatList
             data={events}
