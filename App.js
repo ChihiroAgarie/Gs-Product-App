@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,10 +17,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
+import { initializeApp } from 'firebase/app';
 import { authentication } from './firebase/firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from './firebase/firebase-config';
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, orderBy, query, addDoc, doc, setDoc } from 'firebase/firestore/lite';
 
 import RNPickerSelect from 'react-native-picker-select';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -476,78 +477,90 @@ function Nature(props) {
   }
 
   // 「自然」一覧用配列
-  const [events, setData] = useState([
-    {
-      id: 1,
-      age: '5',
-      pref: '北海道',
-      title: '広い牧場でゆったり農業体験しよう',
-      img: require('./img/pic1.png'),
-    },
-    {
-      id: 2,
-      age: '4',
-      pref: '岩手県',
-      title: '猊鼻渓で舟下り！冬はこたつ舟で暖か',
-      img: require('./img/pic2.png'),
-    },
-    {
-      id: 3,
-      age: '3',
-      pref: '青森県',
-      title: 'ピクニック、キャンプ、動物との触れ合いも！',
-      img: require('./img/pic3.png'),
-    },
-    {
-      id: 4,
-      age: '2',
-      pref: '北海道',
-      title: '手ぶらでウィンタースポーツ！キッズスペースあり',
-      img: require('./img/pic4.png'),
-    },
-    {
-      id: 5,
-      age: '3',
-      pref: '東京都',
-      title: '釣りや水遊びもできる穴場スポット',
-      img: require('./img/pic5.png'),
-    },
-    {
-      id: 6,
-      age: '5',
-      pref: '大阪府',
-      title: '関西最大級の牧場で、動物とたくさん遊ぼう',
-      img: require('./img/pic6.png'),
-    },
-    {
-      id: 7,
-      age: '2',
-      pref: '愛知県',
-      title: 'テストです',
-      img: require('./img/event.jpg'),
-    },
-    {
-      id: 8,
-      age: '6',
-      pref: '福岡県',
-      title: 'テストです',
-      img: require('./img/event.jpg'),
-    },
-    {
-      id: 9,
-      age: '7',
-      pref: '東京都',
-      title: 'テストです',
-      img: require('./img/event.jpg'),
-    },
-    {
-      id: 10,
-      age: '4',
-      pref: '福岡県',
-      title: 'テストです',
-      img: require('./img/event.jpg'),
-    },
-  ]);
+  // 空の配列
+  const [events, setData] = useState([]);
+
+  useEffect(() => {
+    getFirebaseItems();
+  }, []);
+
+  const getFirebaseItems = async () => {
+    const events = await getdata();
+    setData(events);
+    // console.log(contents);
+  }
+  // const [events, setData] = useState([
+  //   {
+  //     id: 1,
+  //     age: '5',
+  //     pref: '北海道',
+  //     title: '広い牧場でゆったり農業体験しよう',
+  //     img: require('./img/pic1.png'),
+  //   },
+  //   {
+  //     id: 2,
+  //     age: '4',
+  //     pref: '岩手県',
+  //     title: '猊鼻渓で舟下り！冬はこたつ舟で暖か',
+  //     img: require('./img/pic2.png'),
+  //   },
+  //   {
+  //     id: 3,
+  //     age: '3',
+  //     pref: '青森県',
+  //     title: 'ピクニック、キャンプ、動物との触れ合いも！',
+  //     img: require('./img/pic3.png'),
+  //   },
+  //   {
+  //     id: 4,
+  //     age: '2',
+  //     pref: '北海道',
+  //     title: '手ぶらでウィンタースポーツ！キッズスペースあり',
+  //     img: require('./img/pic4.png'),
+  //   },
+  //   {
+  //     id: 5,
+  //     age: '3',
+  //     pref: '東京都',
+  //     title: '釣りや水遊びもできる穴場スポット',
+  //     img: require('./img/pic5.png'),
+  //   },
+  //   {
+  //     id: 6,
+  //     age: '5',
+  //     pref: '大阪府',
+  //     title: '関西最大級の牧場で、動物とたくさん遊ぼう',
+  //     img: require('./img/pic6.png'),
+  //   },
+  //   {
+  //     id: 7,
+  //     age: '2',
+  //     pref: '愛知県',
+  //     title: 'テストです',
+  //     img: require('./img/event.jpg'),
+  //   },
+  //   {
+  //     id: 8,
+  //     age: '6',
+  //     pref: '福岡県',
+  //     title: 'テストです',
+  //     img: require('./img/event.jpg'),
+  //   },
+  //   {
+  //     id: 9,
+  //     age: '7',
+  //     pref: '東京都',
+  //     title: 'テストです',
+  //     img: require('./img/event.jpg'),
+  //   },
+  //   {
+  //     id: 10,
+  //     age: '4',
+  //     pref: '福岡県',
+  //     title: 'テストです',
+  //     img: require('./img/event.jpg'),
+  //   },
+  // ]);
 
   // const Item = ({ item, onPress, backgroundColor, textColor }) => (
   const Item = ({ item, onPress }) => (
@@ -558,21 +571,21 @@ function Nature(props) {
       <View style={{ flexDirection: 'row', marginBottom: 15, width: 350, marginLeft: 15 }}>
         <Image
           style={styles.categoryImg}
-          source={item.img} />
+          source={{ uri: item.img_fb }} />
         <View style={{ width: 200 }}>
           <View style={{ flexDirection: 'row', marginBottom: 5, marginLeft: 5, marginBottom: 10 }}>
             <Chip
               mode="outlined"
               style={{ width: 65, marginRight: 5 }}>
-              {item.age}歳〜
+              {item.age_fb}歳〜
             </Chip>
             <Chip
               mode="outlined"
               style={{ width: 65, marginRight: 5 }}>
-              {item.pref}
+              {item.pref_fb}
             </Chip>
           </View>
-          <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.title}</Text>
+          <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.title_fb}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -601,7 +614,7 @@ function Nature(props) {
   //新たな配列を作成
   const onPress = () => {
     const newData = events.filter((item) => {
-      return item.age >= value1 & item.pref === value2;
+      return item.age_fb <= value1 & item.pref_fb === value2;
     });
     setData(newData);
   };
@@ -714,15 +727,7 @@ function Nature(props) {
           </View>
         </View>
 
-        <View>
-          <Button
-            mode="contained"
-            style={{ width: 250, marginBottom: 20, }}
-            onPress={getdata}>
-            Firebaseデータゲット
-          </Button>
-          {/* <Text>{age_fb}</Text> */}
-        </View>
+
 
         <View>
           <FlatList
