@@ -462,14 +462,16 @@ function Search() {
 }
 
 // 「自然」一覧画面
-function Nature(props) {
+function Nature({ navigation }) {
   // ナビゲーション設定
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   const getdata = async () => {
     const dataCol = collection(db, 'contents');
     const dataSnapshot = await getDocs(dataCol);
-    const dataList = dataSnapshot.docs.map(doc => doc.data());
+    // const dataList = dataSnapshot.docs.map(doc => doc.data());
+    const dataList = dataSnapshot.docs.map(
+      (doc) => ({ ...doc.data(), id: doc.id }));
     console.log(dataList);
     console.log(dataList[0].age_fb);
 
@@ -593,13 +595,15 @@ function Nature(props) {
 
   const [selectedId, setSelectedId] = useState(null);
 
-  const renderItem = ({ item }) => {
+  const onPressContent = (item) => {
+    navigation.navigate("Detail", item);
+  };
 
+  const renderItem = ({ item }) => {
     return (
       <Item
         item={item}
-        onPress={() => setSelectedId(item.id)}
-        onPress={() => navigation.navigate('Detail')}
+        onPress={() => onPressContent(item)}
       />
     );
   };
@@ -727,8 +731,6 @@ function Nature(props) {
           </View>
         </View>
 
-
-
         <View>
           <FlatList
             data={events}
@@ -744,43 +746,56 @@ function Nature(props) {
 }
 
 // カテゴリ_詳細画面
-function Detail() {
-  // ナビゲーション設定
-  const navigation = useNavigation();
+function Detail({ route, navigation }) {
+
+  const { img_fb, age_fb, pref_fb, title_fb, place_fb, detail_fb, } = route.params;
 
   return (
     <SafeAreaView style={{ backgroundColor: '#fff', flex: 1 }}>
       <View>
         <Image
           style={styles.categoryDetailImg}
-          source={require('./img/pic1.png')}
+          source={{ uri: img_fb }}
         />
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 5, marginBottom: 10 }}>
           <Chip
             mode="outlined"
             style={{ width: 65, marginRight: 5 }}>
-            5歳〜
+            {age_fb}歳〜
           </Chip>
           <Chip
             mode="outlined"
             style={{ width: 65, marginRight: 5 }}>
-            北海道
+            {pref_fb}
           </Chip>
         </View>
-        <Title style={{ marginLeft: 10, marginBottom: 10 }}>広い牧場でゆったり農業体験しよう</Title>
-        <Text style={{ marginLeft: 10, marginBottom: 10 }} > こちらに体験の説明文が入ります。この体験について説明します。</Text>
-        <IconButton
-          icon="heart"
-          color={Colors.red500}
-          size={40}
-          onPress={() => navigation.navigate('Save')}
-        />
-        <IconButton
-          icon="check"
-          color={Colors.red500}
-          size={40}
-          onPress={() => navigation.navigate('Rate')}
-        />
+        <Title style={{ marginLeft: 10 }}>{title_fb}</Title>
+        <View style={{ flexDirection: 'row' }}>
+          <Button icon="map-marker" style={{ alignItems: 'left', margin: 0 }}>
+            {place_fb}
+          </Button>
+        </View>
+        <Text style={{ marginLeft: 10, marginTop: 5 }}>{detail_fb}</Text>
+        <View style={{
+          flexDirection: 'row', marginTop: 10, marginLeft: 5, marginBottom: 10, borderTopColor: "#ccc", borderTopWidth: 1, position: 'absolute', top: 640
+        }}>
+          <View style={{ width: "50%", alignItems: "center" }}>
+            <IconButton
+              icon="heart"
+              color={Colors.red500}
+              size={40}
+              onPress={() => navigation.navigate('Save')}
+            />
+          </View>
+          <View style={{ width: "50%", alignItems: "center" }}>
+            <IconButton
+              icon="check"
+              color={Colors.green500}
+              size={40}
+              onPress={() => navigation.navigate('Rate')}
+            />
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
